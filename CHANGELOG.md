@@ -6,8 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### [1.0.2] - 2025-02-02
 
--
-- prettier
+- style: prettier
 
 ### [1.0.1] - 2025-01-09
 
