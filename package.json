@@ -1,6 +1,6 @@
 {
   "name": "haraka-plugin-early_talker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Haraka plugin that detects early talkers",
   "main": "index.js",
   "files": [

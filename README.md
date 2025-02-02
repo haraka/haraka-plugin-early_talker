@@ -14,7 +14,7 @@ returned with the message 'You talk too soon'.
 
 ## Configuration
 
-The config file early\_talker.ini has two options:
+The config file early_talker.ini has two options:
 
 - pause: the delay in seconds before each SMTP command. Default is no pause.
 
