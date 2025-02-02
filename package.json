@@ -1,0 +1,45 @@
+{
+  "name": "haraka-plugin-early_talker",
+  "version": "1.0.1",
+  "description": "Haraka plugin that detects early talkers",
+  "main": "index.js",
+  "files": [
+    "CHANGELOG.md",
+    "config"
+  ],
+  "scripts": {
+    "format": "npm run prettier:fix && npm run lint:fix",
+    "lint": "npx eslint *.js test",
+    "lint:fix": "npx eslint *.js test --fix",
+    "prettier": "npx prettier . --check",
+    "prettier:fix": "npx prettier . --write --log-level=warn",
+    "test": "npx mocha@^11",
+    "versions": "npx dependency-version-checker check",
+    "versions:fix": "npx dependency-version-checker update"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haraka/haraka-plugin-early_talker.git"
+  },
+  "keywords": [
+    "haraka-plugin",
+    "early_talker"
+  ],
+  "author": "Haraka Team <haraka.team@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/haraka/haraka-plugin-early_talker/issues"
+  },
+  "homepage": "https://github.com/haraka/haraka-plugin-early_talker#readme",
+  "devDependencies": {
+    "@haraka/eslint-config": "^2.0.2",
+    "haraka-test-fixtures": "^1.3.8"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false
+  },
+  "dependencies": {
+    "ipaddr.js": "^2.2.0"
+  }
+}
