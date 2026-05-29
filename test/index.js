@@ -120,4 +120,21 @@ describe('early_talker', () => {
     assert.equal(whitelist[0][1], 32)
     assert.equal(whitelist[1][1], 16)
   })
+
+  it('load_config handles a missing [ip_whitelist] section (C1)', () => {
+    // simulate a minimal config that omits the [ip_whitelist] section
+    this.plugin.config.get = () => ({ main: { pause: 5 } })
+    assert.doesNotThrow(() => this.plugin.load_config())
+    assert.deepEqual(this.plugin.whitelist, [])
+  })
+
+  it('load_config resets this.pause when main.pause is removed (C2)', () => {
+    this.plugin.config.get = () => ({ main: { pause: 5 }, ip_whitelist: {} })
+    this.plugin.load_config()
+    assert.equal(this.plugin.pause, 5000)
+
+    this.plugin.config.get = () => ({ main: {}, ip_whitelist: {} })
+    this.plugin.load_config()
+    assert.equal(this.plugin.pause, undefined)
+  })
 })

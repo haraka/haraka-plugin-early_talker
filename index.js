@@ -21,13 +21,13 @@ exports.load_config = function () {
     },
   )
 
-  // Generate a white list of IP addresses
-  this.whitelist = this.load_ip_list(Object.keys(this.cfg.ip_whitelist))
+  // Generate a white list of IP addresses. The [ip_whitelist] section is
+  // optional; default to {} so Object.keys() never throws.
+  this.whitelist = this.load_ip_list(Object.keys(this.cfg.ip_whitelist ?? {}))
 
-  if (this.cfg.main?.pause) {
-    this.pause = this.cfg.main.pause * 1000
-    return
-  }
+  // Always reset pause so a hot-reload that drops main.pause re-disables the
+  // delay rather than retaining the prior value.
+  this.pause = this.cfg.main?.pause ? this.cfg.main.pause * 1000 : undefined
 }
 
 exports.early_talker = function (next, connection) {
