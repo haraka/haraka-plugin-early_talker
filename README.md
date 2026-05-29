@@ -1,7 +1,6 @@
-[![CI Test Status][ci-img]][ci-url]
-[![Code Climate][clim-img]][clim-url]
-
 # haraka-plugin-early_talker
+
+[![Test][ci-img]][ci-url] [![Cover][cov-img]][cov-url] [![Qlty][qlty-img]][qlty-url]
 
 Early talkers are violators of the SMTP specification, which require that
 clients must wait for certain responses before sending the next command.
@@ -22,7 +21,11 @@ The config file early_talker.ini has two options:
 
 - [ip_whitelist]: list of IP addresses and/or subnets to whitelist
 
+<!-- leave these buried at the bottom of the document -->
+
 [ci-img]: https://github.com/haraka/haraka-plugin-early_talker/actions/workflows/ci.yml/badge.svg
 [ci-url]: https://github.com/haraka/haraka-plugin-early_talker/actions/workflows/ci.yml
-[clim-img]: https://codeclimate.com/github/haraka/haraka-plugin-early_talker/badges/gpa.svg
-[clim-url]: https://codeclimate.com/github/haraka/haraka-plugin-early_talker
+[cov-img]: https://codecov.io/github/haraka/haraka-plugin-early_talker/coverage.svg
+[cov-url]: https://codecov.io/github/haraka/haraka-plugin-early_talker
+[qlty-img]: https://qlty.sh/gh/haraka/projects/haraka-plugin-early_talker/maintainability.svg
+[qlty-url]: https://qlty.sh/gh/haraka/projects/haraka-plugin-early_talker
