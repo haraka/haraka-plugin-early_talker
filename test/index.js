@@ -1,26 +1,27 @@
 'use strict'
 const assert = require('node:assert')
+const { beforeEach, describe, it } = require('node:test')
 
-const fixtures = require('haraka-test-fixtures')
+const { callHook, makeConnection, makePlugin } = require('haraka-test-fixtures')
 
 const _set_up = () => {
-  this.plugin = new fixtures.plugin('early_talker')
+  this.plugin = makePlugin('early_talker', { register: false })
   this.plugin.cfg = { main: { reject: true } }
 
-  this.connection = fixtures.connection.createConnection()
+  this.connection = makeConnection()
 }
 
 describe('early_talker', () => {
   beforeEach(_set_up)
 
   it('no config', async () => {
-    await new Promise((resolve) => {
-      this.plugin.early_talker((rc, msg) => {
-        assert.equal(rc, undefined)
-        assert.equal(msg, undefined)
-        resolve()
-      }, this.connection)
-    })
+    const { rc, msg } = await callHook(
+      this.plugin,
+      'early_talker',
+      this.connection,
+    )
+    assert.equal(rc, undefined)
+    assert.equal(msg, undefined)
   })
 
   it('relaying', async () => {
@@ -39,14 +40,14 @@ describe('early_talker', () => {
     const before = Date.now()
     this.plugin.pause = 1001
     this.connection.early_talker = true
-    await new Promise((resolve) => {
-      this.plugin.early_talker((rc, msg) => {
-        assert.ok(Date.now() >= before + 1000)
-        assert.equal(rc, DENYDISCONNECT)
-        assert.equal(msg, 'You talk too soon')
-        resolve()
-      }, this.connection)
-    })
+    const { rc, msg } = await callHook(
+      this.plugin,
+      'early_talker',
+      this.connection,
+    )
+    assert.ok(Date.now() >= before + 1000)
+    assert.equal(rc, DENYDISCONNECT)
+    assert.equal(msg, 'You talk too soon')
   })
 
   it('is an early talker, reject=false', async () => {
@@ -54,15 +55,15 @@ describe('early_talker', () => {
     this.plugin.pause = 1001
     this.plugin.cfg.main.reject = false
     this.connection.early_talker = true
-    await new Promise((resolve) => {
-      this.plugin.early_talker((rc, msg) => {
-        assert.ok(Date.now() >= before + 1000)
-        assert.equal(undefined, rc)
-        assert.equal(undefined, msg)
-        assert.ok(this.connection.results.has('early_talker', 'fail', 'early'))
-        resolve()
-      }, this.connection)
-    })
+    const { rc, msg } = await callHook(
+      this.plugin,
+      'early_talker',
+      this.connection,
+    )
+    assert.ok(Date.now() >= before + 1000)
+    assert.equal(undefined, rc)
+    assert.equal(undefined, msg)
+    assert.ok(this.connection.results.has('early_talker', 'fail', 'early'))
   })
 
   it('relay whitelisted ip', async () => {
@@ -70,16 +71,14 @@ describe('early_talker', () => {
     this.plugin.whitelist = this.plugin.load_ip_list(['127.0.0.1'])
     this.connection.remote.ip = '127.0.0.1'
     this.connection.early_talker = true
-    await new Promise((resolve) => {
-      this.plugin.early_talker((rc, msg) => {
-        assert.equal(undefined, rc)
-        assert.equal(undefined, msg)
-        assert.ok(
-          this.connection.results.has('early_talker', 'skip', 'whitelist'),
-        )
-        resolve()
-      }, this.connection)
-    })
+    const { rc, msg } = await callHook(
+      this.plugin,
+      'early_talker',
+      this.connection,
+    )
+    assert.equal(undefined, rc)
+    assert.equal(undefined, msg)
+    assert.ok(this.connection.results.has('early_talker', 'skip', 'whitelist'))
   })
 
   it('relay whitelisted subnet', async () => {
@@ -103,14 +102,14 @@ describe('early_talker', () => {
     this.plugin.pause = 1000
     this.connection.results.add('karma', { good: 10 })
     this.connection.early_talker = true
-    await new Promise((resolve) => {
-      this.plugin.early_talker((rc, msg) => {
-        assert.equal(undefined, rc)
-        assert.equal(undefined, msg)
-        assert.ok(this.connection.results.has('early_talker', 'skip', '+karma'))
-        resolve()
-      }, this.connection)
-    })
+    const { rc, msg } = await callHook(
+      this.plugin,
+      'early_talker',
+      this.connection,
+    )
+    assert.equal(undefined, rc)
+    assert.equal(undefined, msg)
+    assert.ok(this.connection.results.has('early_talker', 'skip', '+karma'))
   })
 
   it('test loading ip list', () => {
