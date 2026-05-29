@@ -1,6 +1,6 @@
 {
   "name": "haraka-plugin-early_talker",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Haraka plugin that detects early talkers",
   "main": "index.js",
   "files": [
@@ -16,8 +16,10 @@
     "prettier:fix": "npx prettier . --write --log-level=warn",
     "qlty": "qlty smells --all",
     "test": "node --test test/*.js",
-    "versions": "npx dependency-version-checker check",
-    "versions:fix": "npx dependency-version-checker update"
+    "test:coverage": "node --test --experimental-test-coverage --test-coverage-exclude=package.json --test-coverage-exclude=test/*.js",
+    "test:coverage:lcov": "mkdir -p coverage && node --test --experimental-test-coverage --test-coverage-exclude=package.json --test-coverage-exclude=test/*.js --test-reporter=lcov --test-reporter-destination=coverage/lcov.info",
+    "versions": "npx npm-dep-mgr check",
+    "versions:fix": "npx npm-dep-mgr update"
   },
   "repository": {
     "type": "git",
